@@ -1,0 +1,46 @@
+/*Footer */
+.footerContainer {
+  background-color: #26393f;
+  color: #eee;
+}
+
+.footerContainer > h4 {
+  color: #eee;
+}
+
+.footerContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+/*Address Contact Open hours*/
+.textContainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 36px 46px;
+}
+
+.detailsContainer {
+  margin-right: 12px;
+}
+
+.detailsContainer > h4 {
+  padding-bottom: 8px;
+}
+
+/*Copyright and icons */
+.copyrightContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 66px 0 46px;
+}
+
+.iconContainer button {
+  border: none;
+  background-color: transparent;
+  color: white;
+  font-size: 26px;
+  margin: 0 2px;
+  padding: 0 12px 4px 0;
+}

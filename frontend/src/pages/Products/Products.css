@@ -1,0 +1,131 @@
+.productsPageContainer {
+  display: flex;
+  flex-direction: column;
+  background-image: linear-gradient(
+    to bottom,
+    #a8c5cd,
+    #a9ccd6,
+    #a9d3df,
+    #aadae9,
+    #aae1f2,
+    #ade5f6,
+    #b0e8fb,
+    #b3ecff,
+    #b9eeff,
+    #bfefff,
+    #c5f1ff,
+    #cbf2ff
+  );
+}
+
+/*Header */
+.productPageHeader {
+  display: flex;
+  padding: 86px 76px;
+}
+
+.productHeaderTitle {
+  width: 30%;
+  letter-spacing: 1px;
+  font-size: 20px;
+}
+
+.productHeaderQuote {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  padding: 0 64px;
+  font-size: 20px;
+}
+
+.productHeaderQuote > p {
+  word-wrap: normal;
+  font-style: italic;
+  letter-spacing: 1px;
+}
+
+.productHeaderQuote > h4 {
+  align-self: flex-end;
+  color: gray;
+  font-size: 16px;
+  font-style: italic;
+  font-weight: lighter;
+  padding-top: 12px;
+  letter-spacing: 1px;
+}
+
+/*Search Sort Section*/
+.searchSortContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  padding: 24px 76px;
+}
+
+.sortContainer {
+  width: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/*Body Section*/
+.productPageBody {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 124px 36px;
+}
+
+@media only screen and (max-width: 1078px) {
+  .productPageHeader {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .productHeaderQuote {
+    padding: 36px 0 0 0;
+  }
+
+  .searchSortContainer {
+    width: 100%;
+    padding: 12px 0 12px 12px;
+    margin: 12px 0;
+  }
+
+  .searchContainer {
+    width: 70%;
+  }
+
+  .sortContainer {
+    width: 30%;
+    justify-content: space-evenly;
+  }
+
+  .productPageBody {
+    padding: 64px;
+  }
+}
+
+@media only screen and (max-width: 728px) {
+  .searchSortContainer {
+    flex-direction: column;
+  }
+
+  .searchContainer {
+    width: 80%;
+    margin-bottom: 12px;
+  }
+
+  .sortContainer {
+    width: 80%;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding: 4px 4px 4px 2px;
+  }
+
+  .productPageBody {
+    padding: 36px;
+  }
+}

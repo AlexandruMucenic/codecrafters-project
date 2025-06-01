@@ -1,0 +1,72 @@
+.bagProductCardContainer {
+  display: flex;
+  padding-top: 6px;
+  margin-bottom: 16px;
+  width: 360px;
+}
+
+.bagProductCartDetails {
+  margin-left: 16px;
+}
+
+.bagProductCardTitleContainer {
+  margin-bottom: 12px;
+}
+
+.bagProductCardAuthorContainer {
+  align-self: flex-end;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.bagProductCardImage {
+  width: 80px;
+  height: 120px;
+}
+
+.bagProductCardPriceContainer {
+  align-self: flex-end;
+  font-weight: bold;
+}
+
+/*Quantity*/
+.actionContainer {
+  display: flex;
+  padding: 12px 0 12px 0;
+}
+
+.actionContainer > button {
+  border: none;
+  background: none;
+}
+
+.quantityContainer {
+  display: flex;
+  align-self: center;
+  align-items: center;
+}
+
+.quantityButtons {
+  border: none;
+  background: none;
+  font-size: 16px;
+  padding: 4px;
+}
+
+.quantityContainer > p {
+  font-size: 14px;
+  font-weight: bold;
+  padding: 4px;
+}
+
+.removeButton {
+  border: none;
+  background: none;
+  font-size: 14px;
+  margin-left: 12px;
+}
+
+.removeButton:hover {
+  text-decoration: underline;
+}
