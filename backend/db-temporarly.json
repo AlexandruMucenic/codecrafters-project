@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Italian Olivewood Aperitivo Bowls",
+    "price": 30,
+    "imageUrl": "images/products/Olivewood.webp"
+  },
+  {
+    "id": 2,
+    "name": "Italian Beechwood Bruschetta Board",
+    "price": 40,
+    "imageUrl": "images/products/Beechwood.webp"
+  },
+  {
+    "id": 3,
+    "name": "Italian Olivewood Charcuterie Board - Rope Handle",
+    "price": 80,
+    "imageUrl": "images/products/Olivewood-Charcuterie.webp"
+  },
+  {
+    "id": 4,
+    "name": "Italian Olivewood Aperitivo Forks - Set of 6",
+    "price": 100,
+    "imageUrl": "images/products/Olivewood-Aperitivo.webp"
+  },
+  {
+    "id": 5,
+    "name": "Italian Olivewood Boat Bowl with Live Edge",
+    "price": 20,
+    "imageUrl": "images/products/Olivewood-Boat-Bowl.webp"
+  }
+]
