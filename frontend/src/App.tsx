@@ -1,10 +1,22 @@
-import './App.css';
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import "./App.css";
+import HomePage from "./pages/HomePage/HomePage";
+import Products from "./pages/Products/Products";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-    </div>
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="products" element={<Products />} />
+      </Routes>
+      <Footer />
+    </>
   );
-}
+};
 
 export default App;
