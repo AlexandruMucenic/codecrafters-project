@@ -1,40 +1,50 @@
-import React, { useEffect, useRef, useState } from 'react'
-import './Carousel.css'
-import CarouselOne from '../../../../../react-bookshop/src/images/carousel/CarouselOne.jpg'
-import CarouselTwo from '../../../../../react-bookshop/src/images/carousel/CarouselTwo.jpg'
-import CarouselThree from '../../../../../react-bookshop/src/images/carousel/CarouselThree.jpg'
+import React, { useEffect, useRef, useState } from "react";
+import "./Carousel.css";
+import CarouselOne from "../../images/products/Beechwood.jpg";
+import CarouselTwo from "../../images/products/Olivewood-Aperitivo.jpg";
+import CarouselThree from "../../images/products/Olivewood-Charcuterie.jpg";
 
 const Carousel: React.FC = () => {
-  const carouselImages = [CarouselOne, CarouselTwo, CarouselThree]
-  const [index, setIndex] = useState<number>(0)
-  const delay = 2500
+  const carouselImages = [CarouselOne, CarouselTwo, CarouselThree];
+  const [index, setIndex] = useState<number>(0);
+  const delay = 2500;
 
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   function resetTimeout() {
     if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current)
+      clearTimeout(timeoutRef.current);
     }
   }
 
   useEffect(() => {
-    resetTimeout()
+    resetTimeout();
     timeoutRef.current = setTimeout(
-      () => setIndex(prevIndex => (prevIndex === carouselImages.length - 1 ? 0 : prevIndex + 1)),
-      delay,
-    ) as unknown as NodeJS.Timeout
+      () =>
+        setIndex((prevIndex) =>
+          prevIndex === carouselImages.length - 1 ? 0 : prevIndex + 1
+        ),
+      delay
+    ) as unknown as NodeJS.Timeout;
 
     return () => {
-      resetTimeout()
-    }
+      resetTimeout();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index])
+  }, [index]);
 
   return (
     <div className="slideshow">
-      <div className="slideshowSlider" style={{ transform: `translate3d(${-index * 100}%, 0, 0)` }}>
+      <div
+        className="slideshowSlider"
+        style={{ transform: `translate3d(${-index * 100}%, 0, 0)` }}
+      >
         {carouselImages.map((image, index) => (
-          <div className="slide" key={index} style={{ backgroundImage: `url(${image})` }}></div>
+          <div
+            className="slide"
+            key={index}
+            style={{ backgroundImage: `url(${image})` }}
+          ></div>
         ))}
       </div>
 
@@ -42,15 +52,15 @@ const Carousel: React.FC = () => {
         {carouselImages.map((_, idx) => (
           <div
             key={idx}
-            className={`slideshowDot${index === idx ? ' active' : ''}`}
+            className={`slideshowDot${index === idx ? " active" : ""}`}
             onClick={() => {
-              setIndex(idx)
+              setIndex(idx);
             }}
           ></div>
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Carousel
+export default Carousel;

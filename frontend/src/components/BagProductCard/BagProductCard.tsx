@@ -1,41 +1,36 @@
-import './BagProductCard.css'
+import "./BagProductCard.css";
 
 interface BagProductCardProps {
-  id?: string
-  author: string
-  title: string
-  imageURL: string
-  price: number
-  quantity: number
-  deleteProduct: () => void
-  incrementQuantity: () => void
-  decrementQuantity: () => void
+  id?: string;
+  name: string;
+  imageUrl: string;
+  price: number;
+  quantity: number;
+  deleteProduct: () => void;
+  incrementQuantity: () => void;
+  decrementQuantity: () => void;
 }
 
 const BagProductCard: React.FC<BagProductCardProps> = ({
   id,
-  author,
-  title,
-  imageURL,
+  name,
+  imageUrl,
   price,
   quantity,
   deleteProduct,
   incrementQuantity,
   decrementQuantity,
 }) => {
-  const isDisabled = quantity <= 1
+  const isDisabled = quantity <= 1;
 
   return (
     <div className="bagProductCardContainer">
       <div className="bagProductCardImageContainer">
-        <img className="bagProductCardImage" src={imageURL} alt="post img" />
+        <img className="bagProductCardImage" src={imageUrl} alt="post img" />
       </div>
 
       <div className="bagProductCartDetails">
-        <h5 className="bagProductCardTitleContainer">{title}</h5>
-        <div className="bagProductCardAuthorContainer">
-          <p>{author}</p>
-        </div>
+        <h5 className="bagProductCardTitleContainer">{name}</h5>
         <div className="bagProductCardPriceContainer">
           <p>${price}</p>
         </div>
@@ -45,7 +40,11 @@ const BagProductCard: React.FC<BagProductCardProps> = ({
               +
             </button>
             <p> {quantity} </p>
-            <button className="quantityButtons" disabled={isDisabled} onClick={decrementQuantity}>
+            <button
+              className="quantityButtons"
+              disabled={isDisabled}
+              onClick={decrementQuantity}
+            >
               -
             </button>
           </div>
@@ -55,7 +54,7 @@ const BagProductCard: React.FC<BagProductCardProps> = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default BagProductCard
+export default BagProductCard;

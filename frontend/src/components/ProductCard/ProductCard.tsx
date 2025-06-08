@@ -1,35 +1,36 @@
-import React from 'react'
-import './ProductCard.css'
+import React from "react";
+import "./ProductCard.css";
 
 interface ProductCardProps {
-  author: string
-  title: string
-  imageURL: string
-  price: number
-  id: string
-  addToCart: () => void
+  name: string;
+  imageUrl: string;
+  price: number;
+  id: string;
+  addToCart: () => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ author, title, imageURL, price, addToCart }) => {
+const ProductCard: React.FC<ProductCardProps> = ({
+  name,
+  imageUrl,
+  price,
+  addToCart,
+}) => {
   return (
     <div className="productCardContainer">
       <div className="titleContainer">
-        <h4>{title}</h4>
+        <h4>{name}</h4>
       </div>
-      <div className="authorNameContainer">
-        <p>{author}</p>
-      </div>
-      <div className="bookImageContainer">
-        <img className="bookImage" src={imageURL} alt="image" />
+      <div className="productImageContainer">
+        <img className="productImage" src={imageUrl} alt={name} />
       </div>
       <div className="priceContainer">
-        <p>${price}</p>
+        <div>Price ${price}</div>
       </div>
       <button onClick={addToCart} className="addToCartContainer">
         ADD TO CART
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default ProductCard
+export default ProductCard;

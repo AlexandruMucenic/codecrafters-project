@@ -5,7 +5,7 @@ interface ICartProduct extends Document {
   id: number;
   name: string;
   price: number;
-  imageURL: string;
+  imageUrl: string;
   quantity: number;
 }
 
@@ -15,7 +15,7 @@ const cartProductSchema = new Schema<ICartProduct>(
     id: { type: Number, required: true },
     name: { type: String, required: true },
     price: { type: Number, required: true },
-    imageURL: { type: String, required: true },
+    imageUrl: { type: String, required: true },
     quantity: { type: Number, required: true },
   },
   {

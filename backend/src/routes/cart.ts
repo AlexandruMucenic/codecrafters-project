@@ -28,17 +28,16 @@ router.delete(
 
 router.put("/:id/add", async (req: any, res: any) => {
   try {
-    const { id, author, title, imageURL, price, quantity } = req.body;
+    const { id, name, imageUrl, price, quantity } = req.body;
     const product = await CartProduct.findOne({ id: req.params.id });
 
     if (!product) {
       const cartProduct = new CartProduct({
         _id: id,
         id,
-        author,
-        title,
+        name,
         price,
-        imageURL,
+        imageUrl,
         quantity,
       });
 
