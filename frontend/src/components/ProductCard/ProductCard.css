@@ -1,4 +1,4 @@
-/*Product Card*/
+/* Product Card */
 .productCardContainer {
   display: flex;
   flex-direction: column;
@@ -15,7 +15,6 @@
   transform: scale(1.05);
 }
 
-/*Book Title*/
 .titleContainer {
   width: 250px;
   height: 30px;
@@ -23,32 +22,31 @@
   letter-spacing: 1px;
   word-wrap: normal;
   padding: 0;
+  padding-bottom: 10px;
   margin: 0;
 }
 
-/*Book Author*/
-.authorNameContainer {
-  align-self: flex-end;
-  padding-bottom: 12px;
-  font-size: 13px;
-  font-weight: bold;
+.productImageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/*Book Price*/
+.productImage {
+  width: 250px;
+  height: 250px;
+}
+
 .priceContainer {
-  align-self: flex-end;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
   font-size: 20px;
   font-weight: bold;
   padding: 6px 0;
 }
 
-/*Book Image*/
-.bookImage {
-  width: 250px;
-  height: 300px;
-}
-
-/*Add to Cart Button*/
 .addToCartContainer {
   background-color: #26393f;
   border: none;

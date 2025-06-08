@@ -8,10 +8,9 @@ import { productsURL, cartURL } from "../../urls";
 
 interface Product {
   id: string;
-  author: string;
-  title: string;
+  name: string;
   price: number;
-  imageURL: string;
+  imageUrl: string;
 }
 
 const Products: React.FC = () => {
@@ -41,20 +40,18 @@ const Products: React.FC = () => {
   //Add to cart function
   const handleAddToCart = async (
     id: string,
-    author: string,
-    title: string,
+    name: string,
     price: number,
-    imageURL: string,
+    imageUrl: string,
     quantity: number
   ) => {
     await fetch(`${cartURL}/${id}/add`, {
       method: "PUT",
       body: JSON.stringify({
         id,
-        author,
-        title,
+        name,
         price,
-        imageURL,
+        imageUrl,
         quantity,
       }),
       headers: {
@@ -66,14 +63,12 @@ const Products: React.FC = () => {
   };
 
   //Search/Sort functions
-  const searchBooks = (e: React.ChangeEvent<HTMLInputElement>) =>
+  const searchProducts = (e: React.ChangeEvent<HTMLInputElement>) =>
     setInputValue(e.target.value);
 
   const filteredProducts = useMemo(() => {
-    const filteredBySearchValue = products.filter(
-      (product) =>
-        product.title.toLowerCase().includes(inputValue.toLowerCase()) ||
-        product.author.toLowerCase().includes(inputValue.toLowerCase())
+    const filteredBySearchValue = products?.filter((product) =>
+      product.name?.toLowerCase()?.includes(inputValue?.toLowerCase())
     );
 
     if (selectedSortOption === "LOWER PRICE") {
@@ -90,23 +85,21 @@ const Products: React.FC = () => {
       {/*Page header*/}
       <div className="productPageHeader">
         <div className="productHeaderTitle">
-          <h2>Our Book Collection </h2>
+          <h2>Our Products </h2>
         </div>
         <div className="productHeaderQuote">
           <p>
-            &ldquo;I declare after all there is no enjoyment like reading! How
-            much sooner one tires of any thing than of a book! When I have a
-            house of my own, I shall be miserable if I have not an excellent
-            library.&rdquo;
+            When you buy something handmade, you’re not just buying a thing –
+            you’re buying a piece of heart, a moment of someone’s life, a small
+            part of their soul.
           </p>
-          <h4>Jane Austen, Pride and Prejudice</h4>
         </div>
       </div>
 
-      {/* Search/Sort section*/}
+      {/* Search/Sort section */}
       <div className="searchSortContainer">
         <div className="searchContainer">
-          <SearchBar searchBooks={searchBooks} inputValue={inputValue} />
+          <SearchBar search={searchProducts} inputValue={inputValue} />
         </div>
         <div className="sortContainer">
           {filteredProducts.length === 0 ? (
@@ -128,23 +121,21 @@ const Products: React.FC = () => {
         {loading ? (
           <h2>Loading products...</h2>
         ) : filteredProducts?.length === 0 ? (
-          <h2>No books found...</h2>
+          <h2>No products found...</h2>
         ) : (
           filteredProducts.map((product) => (
             <ProductCard
-              key={product.id}
-              id={product.id}
-              title={product.title}
-              author={product.author}
-              imageURL={require(`../../images/books/${product.imageURL}`)}
-              price={product.price}
+              key={product?.id}
+              id={product?.id}
+              name={product?.name}
+              imageUrl={require(`../../images/products/${product?.imageUrl}`)}
+              price={product?.price}
               addToCart={() =>
                 handleAddToCart(
-                  product.id,
-                  product.author,
-                  product.title,
-                  product.price,
-                  product.imageURL,
+                  product?.id,
+                  product?.name,
+                  product?.price,
+                  product?.imageUrl,
                   1
                 )
               }

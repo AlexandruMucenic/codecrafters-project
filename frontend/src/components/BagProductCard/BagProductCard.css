@@ -13,16 +13,9 @@
   margin-bottom: 12px;
 }
 
-.bagProductCardAuthorContainer {
-  align-self: flex-end;
-  margin-bottom: 10px;
-  font-size: 13px;
-  font-weight: bold;
-}
-
 .bagProductCardImage {
   width: 80px;
-  height: 120px;
+  height: 80px;
 }
 
 .bagProductCardPriceContainer {
