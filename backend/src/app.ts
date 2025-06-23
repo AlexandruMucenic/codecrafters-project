@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cart from "./routes/cart";
 import products from "./routes/products";
+import users from "./routes/users";
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(cors());
 
 app.use("/products", products);
 app.use("/cart", cart);
+app.use("/users", users);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Welcome to the project API...");

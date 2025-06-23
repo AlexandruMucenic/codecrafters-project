@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
-import "./Products.css";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import DropDownMenu from "../../components/DropDownMenu/DropDownMenu";
 import Cart from "../../components/Cart/Cart";
 import { productsURL, cartURL } from "../../urls";
+import "./Products.css";
 
 interface Product {
   id: string;
