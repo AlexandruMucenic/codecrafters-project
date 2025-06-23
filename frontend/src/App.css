@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap");
 
 h1,
 h2,
@@ -6,7 +6,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Optima', sans-serif;
+  font-family: "Optima", sans-serif;
 }
 
 p {
@@ -15,4 +15,22 @@ p {
 
 button {
   cursor: pointer;
+}
+
+/* Make the app use full viewport height and push footer down */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.content {
+  flex: 1; /* this makes main content grow to push footer down */
 }
