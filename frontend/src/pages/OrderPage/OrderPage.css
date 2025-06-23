@@ -65,3 +65,41 @@ h1 {
 .bold {
   font-weight: 700;
 }
+
+.quantity-btn {
+  padding: 2px 8px;
+  margin: 0 4px;
+  border: 1px solid #aaa;
+  background: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  border: none;
+}
+
+.quantity-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quantity-input {
+  width: 40px;
+  text-align: center;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  padding: 2px 4px;
+  font-size: 14px;
+}
+
+.remove-btn {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.remove-btn:hover {
+  background: #c0392b;
+}

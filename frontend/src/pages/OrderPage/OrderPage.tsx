@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { orderURL } from "../../urls";
 import "./OrderPage.css";
 
@@ -19,16 +19,91 @@ const OrderPage: React.FC = () => {
       .then((data) => {
         const allItems = data.flatMap((order: any) => order?.items);
         setProducts(allItems);
+      })
+      .catch((err) => console.error("Error fetching orders:", err));
+  }, []);
+
+  const incrementQuantity = useCallback(async (id: string) => {
+    try {
+      const response = await fetch(`${orderURL}/${id}/increaseQuantity`, {
+        method: "PUT",
+        body: JSON.stringify({ id }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
       });
+
+      if (!response.ok) {
+        throw new Error("Failed to increase quantity.");
+      }
+
+      setProducts((prevProducts) =>
+        prevProducts.map((product) =>
+          product.id === id
+            ? { ...product, quantity: product.quantity + 1 }
+            : product
+        )
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
+
+  const decrementQuantity = useCallback(async (id: string) => {
+    try {
+      const response = await fetch(`${orderURL}/${id}/decreaseQuantity`, {
+        method: "PUT",
+        body: JSON.stringify({ id }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to decrease quantity.");
+      }
+
+      setProducts((prevProducts) =>
+        prevProducts.map((product) =>
+          product.id === id && product.quantity > 1
+            ? { ...product, quantity: product.quantity - 1 }
+            : product
+        )
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
+
+  const deleteProduct = useCallback(async (id: string) => {
+    try {
+      const response = await fetch(`${orderURL}/${id}/delete`, {
+        method: "DELETE",
+        body: JSON.stringify({ id }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete product.");
+      }
+
+      setProducts((prevProducts) =>
+        prevProducts.filter((product) => product.id !== id)
+      );
+    } catch (err) {
+      console.error(err);
+    }
   }, []);
 
   const totalProducts = products.reduce(
-    (sum, product) => sum + product?.quantity,
+    (sum, product) => sum + product.quantity,
     0
   );
 
   const totalPrice = products.reduce(
-    (sum, product) => sum + product?.price * product?.quantity,
+    (sum, product) => sum + product.price * product.quantity,
     0
   );
 
@@ -36,7 +111,7 @@ const OrderPage: React.FC = () => {
     <div className="order-container">
       <h1>Order Summary</h1>
 
-      {products?.length === 0 ? (
+      {products.length === 0 ? (
         <p>Your order is empty.</p>
       ) : (
         <>
@@ -46,24 +121,48 @@ const OrderPage: React.FC = () => {
             <div className="order-cell price">Price</div>
             <div className="order-cell quantity">Quantity</div>
             <div className="order-cell total">Total</div>
+            <div className="order-cell actions">Actions</div>
           </div>
 
           {products.map((product) => (
-            <div key={product?.id} className="order-row">
-              <div className="order-cell name">{product?.name}</div>
+            <div key={product.id} className="order-row">
+              <div className="order-cell name">{product.name}</div>
               <div className="order-cell image">
                 <img
-                  src={require(`../../images/products/${product?.imageUrl}`)}
-                  alt={product?.name}
+                  src={require(`../../images/products/${product.imageUrl}`)}
+                  alt={product.name}
                   className="product-image"
                 />
               </div>
               <div className="order-cell price">
-                ${product?.price?.toFixed(2)}
+                ${product.price.toFixed(2)}
               </div>
-              <div className="order-cell quantity">{product?.quantity}</div>
+              <div className="order-cell quantity">
+                <button
+                  className="quantity-btn"
+                  onClick={() => decrementQuantity(product.id)}
+                  disabled={product.quantity <= 1}
+                >
+                  −
+                </button>
+                <div className="quantity-display">{product.quantity}</div>
+                <button
+                  className="quantity-btn"
+                  onClick={() => incrementQuantity(product.id)}
+                >
+                  +
+                </button>
+              </div>
               <div className="order-cell total">
-                ${(product?.price * product?.quantity).toFixed(2)}
+                ${(product.price * product.quantity).toFixed(2)}
+              </div>
+              <div className="order-cell actions">
+                <button
+                  className="remove-btn"
+                  onClick={() => deleteProduct(product.id)}
+                >
+                  Remove
+                </button>
               </div>
             </div>
           ))}
@@ -74,8 +173,9 @@ const OrderPage: React.FC = () => {
             <div className="order-cell price"></div>
             <div className="order-cell quantity bold">{totalProducts}</div>
             <div className="order-cell total bold">
-              ${totalPrice?.toFixed(2)}
+              ${totalPrice.toFixed(2)}
             </div>
+            <div className="order-cell actions"></div>
           </div>
         </>
       )}
