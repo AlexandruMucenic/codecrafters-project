@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import cart from "./routes/cart";
 import products from "./routes/products";
 import users from "./routes/users";
+import order from "./routes/order";
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(cors());
 app.use("/products", products);
 app.use("/cart", cart);
 app.use("/users", users);
+app.use("/order", order);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Welcome to the project API...");

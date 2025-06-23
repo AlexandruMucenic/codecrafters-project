@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-interface ICartProduct extends Document {
+export interface ICartProduct extends Document {
   _id: number;
   id: number;
   name: string;

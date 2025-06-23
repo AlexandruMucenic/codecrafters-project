@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Logo from "../../images/nav/Logo.svg";
 import ShoppingBag from "../../images/nav/ShoppingBag.svg";
@@ -7,14 +7,13 @@ import LoginIcon from "../../images/nav/LoginIcon.svg";
 import Cart from "../Cart/Cart";
 import "./Header.css";
 
-const Header: React.FC = () => {
-  const CloseIcon = FaTimes as unknown as React.FC<
-    React.SVGProps<SVGSVGElement>
-  >;
-  const BarsIcon = FaBars as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
+const CloseIcon = FaTimes as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
+const BarsIcon = FaBars as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 
+const Header: React.FC = () => {
   const [showCart, setShowCart] = useState<boolean>(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const navigate = useNavigate();
   const navRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -42,6 +41,10 @@ const Header: React.FC = () => {
     localStorage.removeItem("isLoggedIn");
     window.dispatchEvent(new Event("storage"));
     setIsLoggedIn(false);
+  };
+
+  const handleRedirectToOrder = () => {
+    navigate("/order");
   };
 
   return (
@@ -79,6 +82,10 @@ const Header: React.FC = () => {
           {/* Open cart button */}
           <button className="icon">
             <img alt="cart icon" src={ShoppingBag} onClick={handleOpenCart} />
+          </button>
+
+          <button className="icon">
+            <p onClick={handleRedirectToOrder}> x </p>
           </button>
         </div>
 
