@@ -49,14 +49,11 @@ const Header: React.FC = () => {
 
   return (
     <header className="headerContainer">
-      {/* Logo */}
       <div className="logoContainer">
         <Link to="/">
           <img className="logo" alt="verve.org" src={Logo} />
         </Link>
       </div>
-
-      {/* Navbar */}
       <nav ref={navRef} className="navContainer">
         <div className="navbarItemsContainer">
           <Link className="link" onClick={toggleNavbar} to="/">
@@ -66,26 +63,21 @@ const Header: React.FC = () => {
             Products
           </Link>
         </div>
-
         <div className="navbarBtnContainer">
-          {/* Show login or logout */}
           {!isLoggedIn ? (
             <Link className="link" to="/authentication">
-              <img alt="login icon" src={LoginIcon} />
+              <img alt="login icon" src={LoginIcon} className="icon" />
             </Link>
           ) : (
             <button className="logout-btn" onClick={handleLogout}>
               Logout
             </button>
           )}
-
-          {/* Open cart button */}
-          <button className="icon">
-            <img alt="cart icon" src={ShoppingBag} onClick={handleOpenCart} />
+          <button className="header-test-button">
+            <p onClick={handleRedirectToOrder}> Your order </p>
           </button>
-
-          <button className="icon">
-            <p onClick={handleRedirectToOrder}> x </p>
+          <button className="header-test-button">
+            <img alt="cart icon" src={ShoppingBag} onClick={handleOpenCart} />
           </button>
         </div>
 

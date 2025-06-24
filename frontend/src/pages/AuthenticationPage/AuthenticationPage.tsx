@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./AuthenticationPage.css";
-import { orderURL } from "../../urls";
+import { usersURL } from "../../urls";
 import { useNavigate } from "react-router";
 
 type Mode = "login" | "register" | "reset";
@@ -32,7 +32,7 @@ export const AuthenticationPage = () => {
       return;
     }
     try {
-      const res = await fetch(`${orderURL}/register`, {
+      const res = await fetch(`${usersURL}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, name, password }),
@@ -55,7 +55,7 @@ export const AuthenticationPage = () => {
 
   const handleLogin = async () => {
     try {
-      const res = await fetch(`${orderURL}/login`, {
+      const res = await fetch(`${usersURL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -82,7 +82,7 @@ export const AuthenticationPage = () => {
 
   const handleResetPassword = async () => {
     try {
-      const res = await fetch(`${orderURL}/reset-password`, {
+      const res = await fetch(`${usersURL}/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, newPassword }),

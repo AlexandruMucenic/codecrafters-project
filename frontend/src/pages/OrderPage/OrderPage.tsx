@@ -12,6 +12,7 @@ interface CartProduct {
 
 const OrderPage: React.FC = () => {
   const [products, setProducts] = useState<CartProduct[]>([]);
+  const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
     fetch(orderURL)
@@ -107,6 +108,19 @@ const OrderPage: React.FC = () => {
     0
   );
 
+  const handleFinishOrder = () => {
+    setIsFinished(true);
+  };
+
+  if (isFinished) {
+    return (
+      <div className="thank-you-container">
+        <h1>Thank you for your order!</h1>
+        <p>Your order will be paid when it arrives to you.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="order-container">
       <h1>Order Summary</h1>
@@ -176,6 +190,11 @@ const OrderPage: React.FC = () => {
               ${totalPrice.toFixed(2)}
             </div>
             <div className="order-cell actions"></div>
+          </div>
+          <div className="finish-order-container">
+            <button className="finish-order-btn" onClick={handleFinishOrder}>
+              Finish your order
+            </button>
           </div>
         </>
       )}

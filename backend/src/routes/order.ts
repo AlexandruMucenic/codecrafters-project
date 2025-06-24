@@ -79,12 +79,26 @@ router.delete(
   "/:id/delete",
   async (req: Request<{ id: string }>, res: Response) => {
     try {
-      await Order.deleteOne({ id: req.params.id });
+      await Order.updateMany(
+        {},
+        { $pull: { items: { id: Number(req.params.id) } } }
+      );
 
-      const order = await Order.find();
-      res.send(order);
+      const orders = await Order.find();
+      for (const order of orders) {
+        const newProductsNumber = order.items.reduce(
+          (total, item) => total + (item.quantity || 1),
+          0
+        );
+        order.productsNumber = newProductsNumber;
+        await order.save();
+      }
+
+      const updatedOrders = await Order.find();
+      res.send(updatedOrders);
     } catch (error: any) {
-      res.status(500).send({ error: "Failed to delete order." });
+      console.error(error);
+      res.status(500).send({ error: "Failed to delete product from orders." });
     }
   }
 );
