@@ -86,4 +86,14 @@ router.put(
   }
 );
 
+router.delete("/all", async (_req: Request, res: Response) => {
+  try {
+    await CartProduct.deleteMany({});
+    res.send({ message: "All orders have been deleted." });
+  } catch (error: any) {
+    console.error("Error deleting all orders:", error);
+    res.status(500).send({ error: "Failed to delete." });
+  }
+});
+
 export default router;

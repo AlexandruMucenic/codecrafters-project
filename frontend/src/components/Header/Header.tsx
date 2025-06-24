@@ -6,6 +6,7 @@ import ShoppingBag from "../../images/nav/ShoppingBag.svg";
 import LoginIcon from "../../images/nav/LoginIcon.svg";
 import Cart from "../Cart/Cart";
 import "./Header.css";
+import { cartURL, orderURL } from "../../urls";
 
 const CloseIcon = FaTimes as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 const BarsIcon = FaBars as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
@@ -37,7 +38,17 @@ const Header: React.FC = () => {
     setShowCart(true);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    const clearOrder = await fetch(`${orderURL}/all`, {
+      method: "DELETE",
+    });
+
+    const clearCart = await fetch(`${cartURL}/all`, {
+      method: "DELETE",
+    });
+
+    if (!clearOrder.ok || !clearCart.ok) throw new Error();
+
     localStorage.removeItem("isLoggedIn");
     window.dispatchEvent(new Event("storage"));
     setIsLoggedIn(false);
