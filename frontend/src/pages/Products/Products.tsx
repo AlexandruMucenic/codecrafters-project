@@ -19,25 +19,40 @@ const Products: React.FC = () => {
   const [selectedSortOption, setSelectedSortOption] = useState<string>("");
   const [showCart, setShowCart] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   const sortOption = ["LOWER PRICE", "HIGHER PRICE"];
 
   useEffect(() => {
-    fetch(productsURL, {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((products: Product[]) => {
-        setProducts(products);
-        setLoading(false);
-      })
-      .catch((_) => {
-        alert("Could not retrieve products.");
-        setLoading(false);
-      });
+    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+    setIsLoggedIn(loggedIn);
+
+    const handleStorageChange = () => {
+      const updatedLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+      setIsLoggedIn(updatedLoggedIn);
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-  //Add to cart function
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(productsURL, { method: "GET" });
+
+        const products: Product[] = await response.json();
+        setProducts(products);
+      } catch (error) {
+        alert("Could not retrieve products.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   const handleAddToCart = async (
     id: string,
     name: string,
@@ -45,6 +60,11 @@ const Products: React.FC = () => {
     imageUrl: string,
     quantity: number
   ) => {
+    if (!isLoggedIn) {
+      alert("You need to log in to add items to the basket.");
+      return;
+    }
+
     await fetch(`${cartURL}/${id}/add`, {
       method: "PUT",
       body: JSON.stringify({

@@ -69,16 +69,21 @@ const Header: React.FC = () => {
               <img alt="login icon" src={LoginIcon} className="icon" />
             </Link>
           ) : (
-            <button className="logout-btn" onClick={handleLogout}>
-              Logout
-            </button>
+            <>
+              <button className="logout-btn" onClick={handleLogout}>
+                Logout
+              </button>
+              <button
+                className="header-test-button"
+                onClick={handleRedirectToOrder}
+              >
+                <p>Your order</p>
+              </button>
+              <button className="header-test-button" onClick={handleOpenCart}>
+                <img alt="cart icon" src={ShoppingBag} />
+              </button>
+            </>
           )}
-          <button className="header-test-button">
-            <p onClick={handleRedirectToOrder}> Your order </p>
-          </button>
-          <button className="header-test-button">
-            <img alt="cart icon" src={ShoppingBag} onClick={handleOpenCart} />
-          </button>
         </div>
 
         <button className="nav-btn nav-close-btn" onClick={toggleNavbar}>

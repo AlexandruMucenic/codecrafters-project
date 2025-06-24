@@ -128,7 +128,6 @@ const Cart: React.FC<CartProps> = ({ addedToCart, showCart, handleClose }) => {
   };
 
   const handleClosePortal = () => {
-    window.location.reload();
     if (handleClose) handleClose();
   };
 

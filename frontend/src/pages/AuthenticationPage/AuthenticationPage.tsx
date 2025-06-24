@@ -26,6 +26,11 @@ export const AuthenticationPage = () => {
   }, [message]);
 
   const handleRegister = async () => {
+    if (!email || !name || !password || !confirmPassword) {
+      setMessage("No input should be empty");
+      return;
+    }
+
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
       return;
@@ -55,6 +60,11 @@ export const AuthenticationPage = () => {
   };
 
   const handleLogin = async () => {
+    if (!email || !password) {
+      setMessage("No input should be empty");
+      return;
+    }
+
     try {
       const res = await fetch(`${usersURL}/login`, {
         method: "POST",
@@ -84,6 +94,11 @@ export const AuthenticationPage = () => {
   };
 
   const handleResetPassword = async () => {
+    if (!email || !newPassword) {
+      setMessage("No input should be empty");
+      return;
+    }
+
     try {
       const res = await fetch(`${usersURL}/reset-password`, {
         method: "POST",
