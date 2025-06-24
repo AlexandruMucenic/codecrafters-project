@@ -6,6 +6,7 @@ import Products from "./pages/Products/Products";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import AuthenticationPage from "./pages/AuthenticationPage/AuthenticationPage";
+import OrderPage from "./pages/OrderPage/OrderPage";
 
 const App: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ const App: React.FC = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="products" element={<Products />} />
           <Route path="/authentication" element={<AuthenticationPage />} />
+          <Route path="/order" element={<OrderPage />} />
         </Routes>
       </main>
       <Footer />

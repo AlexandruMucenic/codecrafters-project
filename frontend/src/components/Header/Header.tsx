@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Logo from "../../images/nav/Logo.svg";
 import ShoppingBag from "../../images/nav/ShoppingBag.svg";
@@ -7,14 +7,13 @@ import LoginIcon from "../../images/nav/LoginIcon.svg";
 import Cart from "../Cart/Cart";
 import "./Header.css";
 
-const Header: React.FC = () => {
-  const CloseIcon = FaTimes as unknown as React.FC<
-    React.SVGProps<SVGSVGElement>
-  >;
-  const BarsIcon = FaBars as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
+const CloseIcon = FaTimes as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
+const BarsIcon = FaBars as unknown as React.FC<React.SVGProps<SVGSVGElement>>;
 
+const Header: React.FC = () => {
   const [showCart, setShowCart] = useState<boolean>(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const navigate = useNavigate();
   const navRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -44,16 +43,17 @@ const Header: React.FC = () => {
     setIsLoggedIn(false);
   };
 
+  const handleRedirectToOrder = () => {
+    navigate("/order");
+  };
+
   return (
     <header className="headerContainer">
-      {/* Logo */}
       <div className="logoContainer">
         <Link to="/">
           <img className="logo" alt="verve.org" src={Logo} />
         </Link>
       </div>
-
-      {/* Navbar */}
       <nav ref={navRef} className="navContainer">
         <div className="navbarItemsContainer">
           <Link className="link" onClick={toggleNavbar} to="/">
@@ -63,21 +63,20 @@ const Header: React.FC = () => {
             Products
           </Link>
         </div>
-
         <div className="navbarBtnContainer">
-          {/* Show login or logout */}
           {!isLoggedIn ? (
             <Link className="link" to="/authentication">
-              <img alt="login icon" src={LoginIcon} />
+              <img alt="login icon" src={LoginIcon} className="icon" />
             </Link>
           ) : (
             <button className="logout-btn" onClick={handleLogout}>
               Logout
             </button>
           )}
-
-          {/* Open cart button */}
-          <button className="icon">
+          <button className="header-test-button">
+            <p onClick={handleRedirectToOrder}> Your order </p>
+          </button>
+          <button className="header-test-button">
             <img alt="cart icon" src={ShoppingBag} onClick={handleOpenCart} />
           </button>
         </div>
