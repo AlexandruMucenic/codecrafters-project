@@ -15,13 +15,20 @@ const OrderPage: React.FC = () => {
   const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
-    fetch(orderURL)
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchOrders = async () => {
+      try {
+        const res = await fetch(orderURL);
+        if (!res.ok) throw new Error("Failed to fetch orders.");
+
+        const data = await res.json();
         const allItems = data.flatMap((order: any) => order?.items);
         setProducts(allItems);
-      })
-      .catch((err) => console.error("Error fetching orders:", err));
+      } catch (err) {
+        console.error("Error fetching orders:", err);
+      }
+    };
+
+    fetchOrders();
   }, []);
 
   const incrementQuantity = useCallback(async (id: string) => {
@@ -30,7 +37,7 @@ const OrderPage: React.FC = () => {
         method: "PUT",
         body: JSON.stringify({ id }),
         headers: {
-          "Content-type": "application/json; charset=UTF-8",
+          "Content-Type": "application/json; charset=UTF-8",
         },
       });
 
@@ -56,7 +63,7 @@ const OrderPage: React.FC = () => {
         method: "PUT",
         body: JSON.stringify({ id }),
         headers: {
-          "Content-type": "application/json; charset=UTF-8",
+          "Content-Type": "application/json; charset=UTF-8",
         },
       });
 
@@ -82,7 +89,7 @@ const OrderPage: React.FC = () => {
         method: "DELETE",
         body: JSON.stringify({ id }),
         headers: {
-          "Content-type": "application/json; charset=UTF-8",
+          "Content-Type": "application/json; charset=UTF-8",
         },
       });
 
@@ -108,7 +115,11 @@ const OrderPage: React.FC = () => {
     0
   );
 
-  const handleFinishOrder = () => {
+  const handleFinishOrder = async () => {
+    const clearResponse = await fetch(`${orderURL}/all`, {
+      method: "DELETE",
+    });
+    if (!clearResponse.ok) throw new Error();
     setIsFinished(true);
   };
 

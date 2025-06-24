@@ -13,7 +13,6 @@ export const AuthenticationPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-
   const [message, setMessage] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -31,12 +30,14 @@ export const AuthenticationPage = () => {
       setMessage("Passwords do not match");
       return;
     }
+
     try {
       const res = await fetch(`${usersURL}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, name, password }),
       });
+
       const data = await res.json();
       if (!res.ok) {
         throw new Error(data.message);
@@ -60,7 +61,9 @@ export const AuthenticationPage = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
+
       const data = await res.json();
+
       if (!res.ok) {
         setEmail("");
         setPassword("");
@@ -87,7 +90,9 @@ export const AuthenticationPage = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, newPassword }),
       });
+
       const data = await res.json();
+
       if (!res.ok) {
         setEmail("");
         setNewPassword("");

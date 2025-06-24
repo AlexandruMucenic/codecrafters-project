@@ -33,120 +33,103 @@ const Cart: React.FC<CartProps> = ({ addedToCart, showCart, handleClose }) => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const navigate = useNavigate();
 
+  const fetchCartProducts = useCallback(async () => {
+    try {
+      const response = await fetch(cartURL);
+
+      if (!response.ok) throw new Error();
+      const data: CartProduct[] = await response.json();
+
+      setCartProducts(data);
+      setErrorMessage("");
+    } catch {
+      setErrorMessage("Could not get cart data.");
+    }
+  }, []);
+
   useEffect(() => {
-    fetch(cartURL, {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data: CartProduct[]) => {
-        setCartProducts(data);
-        setErrorMessage("");
-      })
-      .catch(() => {
-        setErrorMessage("Could not get cart data.");
-      });
-  }, [addedToCart]);
+    fetchCartProducts();
+  }, [fetchCartProducts, addedToCart]);
 
   const totalCart = cartProducts.reduce((sum, product) => {
     sum += product.quantity * product.price;
     return sum;
   }, 0);
 
+  const updateQuantity = useCallback(
+    async (id: string, action: "increaseQuantity" | "decreaseQuantity") => {
+      try {
+        const response = await fetch(`${cartURL}/${id}/${action}`, {
+          method: "PUT",
+          body: JSON.stringify({ id }),
+          headers: { "Content-Type": "application/json" },
+        });
+
+        if (!response.ok) throw new Error();
+
+        const data: CartProduct[] = await response.json();
+        setCartProducts(data);
+        setErrorMessage("");
+      } catch {
+        setErrorMessage("Could not update quantity.");
+      }
+    },
+    []
+  );
+
   const deleteProduct = useCallback(async (id: string) => {
     try {
       const response = await fetch(`${cartURL}/${id}/delete`, {
         method: "DELETE",
         body: JSON.stringify({ id }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
+        headers: { "Content-Type": "application/json" },
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to delete product.");
-      }
+      if (!response.ok) throw new Error();
 
       const data: CartProduct[] = await response.json();
+
       setCartProducts(data);
       setErrorMessage("");
-    } catch (err) {
+    } catch {
       setErrorMessage("Could not delete product.");
     }
   }, []);
 
-  const incrementQuantity = useCallback(async (id: string) => {
-    try {
-      const response = await fetch(`${cartURL}/${id}/increaseQuantity`, {
-        method: "PUT",
-        body: JSON.stringify({ id }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      });
+  const incrementQuantity = useCallback(
+    (id: string) => updateQuantity(id, "increaseQuantity"),
+    [updateQuantity]
+  );
 
-      if (!response.ok) {
-        throw new Error("Failed to increase quantity.");
-      }
-
-      const data: CartProduct[] = await response.json();
-      setCartProducts(data);
-      setErrorMessage("");
-    } catch (err) {
-      setErrorMessage("Could not update quantity.");
-    }
-  }, []);
-
-  const decrementQuantity = useCallback(async (id: string) => {
-    try {
-      const response = await fetch(`${cartURL}/${id}/decreaseQuantity`, {
-        method: "PUT",
-        body: JSON.stringify({ id }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to decrease quantity.");
-      }
-
-      const data: CartProduct[] = await response.json();
-      setCartProducts(data);
-      setErrorMessage("");
-    } catch (err) {
-      setErrorMessage("Could not update quantity.");
-    }
-  }, []);
-
-  const handleClosePortal = () => {
-    window.location.reload();
-    if (handleClose) handleClose();
-  };
+  const decrementQuantity = useCallback(
+    (id: string) => updateQuantity(id, "decreaseQuantity"),
+    [updateQuantity]
+  );
 
   const handlePlaceOrder = async () => {
     try {
-      const clearOrderResponse = await fetch(`${orderURL}/all`, {
+      const clearResponse = await fetch(`${orderURL}/all`, {
         method: "DELETE",
       });
-
-      if (!clearOrderResponse.ok) {
-        throw new Error("Failed");
-      }
+      if (!clearResponse.ok) throw new Error();
 
       const response = await fetch(orderURL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ items: cartProducts }),
       });
-
-      if (!response.ok) throw new Error("Failed to create order.");
+      if (!response.ok) throw new Error();
 
       setErrorMessage("");
       navigate("/order");
       window.location.reload();
-    } catch (err) {
+    } catch {
       setErrorMessage("Could not place order.");
     }
+  };
+
+  const handleClosePortal = () => {
+    window.location.reload();
+    if (handleClose) handleClose();
   };
 
   if (!showCart) {
@@ -156,20 +139,15 @@ const Cart: React.FC<CartProps> = ({ addedToCart, showCart, handleClose }) => {
   return ReactDom.createPortal(
     <div className="blurBackground">
       <div className="cartContainer">
-        {/* Cart Header */}
         <div className="cartHeader">
           <h3 className="cartTitle">Your Cart</h3>
           <CloseIcon className="closeCartBtn" onClick={handleClosePortal} />
         </div>
-
-        {/* Cart Body */}
         <div className="cartBody">
           {errorMessage && <p className="cartMessage">{errorMessage}</p>}
-
           {cartProducts.length === 0 && !errorMessage && (
             <p className="cartMessage">The cart is empty.</p>
           )}
-
           {cartProducts.map((product) => (
             <BagProductCard
               key={product.id}
@@ -184,8 +162,6 @@ const Cart: React.FC<CartProps> = ({ addedToCart, showCart, handleClose }) => {
             />
           ))}
         </div>
-
-        {/* Cart Footer */}
         {cartProducts.length > 0 && (
           <div className="cartFooter">
             <div className="cartTotal">

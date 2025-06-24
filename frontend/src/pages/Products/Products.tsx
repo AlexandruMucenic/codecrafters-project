@@ -62,7 +62,6 @@ const Products: React.FC = () => {
     setShowCart(true);
   };
 
-  //Search/Sort functions
   const searchProducts = (e: React.ChangeEvent<HTMLInputElement>) =>
     setInputValue(e.target.value);
 
@@ -82,7 +81,6 @@ const Products: React.FC = () => {
 
   return (
     <div className="productsPageContainer">
-      {/*Page header*/}
       <div className="productPageHeader">
         <div className="productHeaderTitle">
           <h2>Our Products </h2>
@@ -95,8 +93,6 @@ const Products: React.FC = () => {
           </p>
         </div>
       </div>
-
-      {/* Search/Sort section */}
       <div className="searchSortContainer">
         <div className="searchContainer">
           <SearchBar search={searchProducts} inputValue={inputValue} />
@@ -115,8 +111,6 @@ const Products: React.FC = () => {
           />
         </div>
       </div>
-
-      {/*Products section*/}
       <div className="productPageBody">
         {loading ? (
           <h2>Loading products...</h2>
@@ -143,8 +137,6 @@ const Products: React.FC = () => {
           ))
         )}
       </div>
-
-      {/*Cart*/}
       <Cart
         addedToCart={handleAddToCart}
         showCart={showCart}

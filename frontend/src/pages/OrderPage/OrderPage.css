@@ -122,3 +122,11 @@ h1 {
 .finish-order-btn:hover {
   background-color: #aaa;
 }
+
+.thank-you-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
