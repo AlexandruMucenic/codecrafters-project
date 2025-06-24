@@ -49,7 +49,7 @@ const Cart: React.FC<CartProps> = ({ addedToCart, showCart, handleClose }) => {
 
   useEffect(() => {
     fetchCartProducts();
-  }, [fetchCartProducts, addedToCart]);
+  }, [showCart]);
 
   const totalCart = cartProducts.reduce((sum, product) => {
     sum += product.quantity * product.price;
@@ -77,6 +77,16 @@ const Cart: React.FC<CartProps> = ({ addedToCart, showCart, handleClose }) => {
     []
   );
 
+  const incrementQuantity = useCallback(
+    (id: string) => updateQuantity(id, "increaseQuantity"),
+    [updateQuantity]
+  );
+
+  const decrementQuantity = useCallback(
+    (id: string) => updateQuantity(id, "decreaseQuantity"),
+    [updateQuantity]
+  );
+
   const deleteProduct = useCallback(async (id: string) => {
     try {
       const response = await fetch(`${cartURL}/${id}/delete`, {
@@ -94,16 +104,6 @@ const Cart: React.FC<CartProps> = ({ addedToCart, showCart, handleClose }) => {
       setErrorMessage("Could not delete product.");
     }
   }, []);
-
-  const incrementQuantity = useCallback(
-    (id: string) => updateQuantity(id, "increaseQuantity"),
-    [updateQuantity]
-  );
-
-  const decrementQuantity = useCallback(
-    (id: string) => updateQuantity(id, "decreaseQuantity"),
-    [updateQuantity]
-  );
 
   const handlePlaceOrder = async () => {
     try {
