@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { orderURL } from "../../urls";
+import { cartURL, orderURL } from "../../urls";
 import "./OrderPage.css";
 
 interface CartProduct {
@@ -31,57 +31,56 @@ const OrderPage: React.FC = () => {
     fetchOrders();
   }, []);
 
-  const incrementQuantity = useCallback(async (id: string) => {
-    try {
-      const response = await fetch(`${orderURL}/${id}/increaseQuantity`, {
-        method: "PUT",
-        body: JSON.stringify({ id }),
-        headers: {
-          "Content-Type": "application/json; charset=UTF-8",
-        },
-      });
+  const updateQuantity = useCallback(
+    async (id: string, action: "increaseQuantity" | "decreaseQuantity") => {
+      try {
+        const response = await fetch(`${orderURL}/${id}/${action}`, {
+          method: "PUT",
+          body: JSON.stringify({ id }),
+          headers: {
+            "Content-Type": "application/json; charset=UTF-8",
+          },
+        });
 
-      if (!response.ok) {
-        throw new Error("Failed to increase quantity.");
+        if (!response.ok) {
+          throw new Error(
+            `Failed to ${
+              action === "increaseQuantity" ? "increase" : "decrease"
+            } quantity.`
+          );
+        }
+
+        setProducts((prevProducts) =>
+          prevProducts.map((product) =>
+            product.id === id
+              ? {
+                  ...product,
+                  quantity:
+                    action === "increaseQuantity"
+                      ? product.quantity + 1
+                      : product.quantity > 1
+                      ? product.quantity - 1
+                      : 1,
+                }
+              : product
+          )
+        );
+      } catch (err) {
+        console.error(err);
       }
+    },
+    []
+  );
 
-      setProducts((prevProducts) =>
-        prevProducts.map((product) =>
-          product.id === id
-            ? { ...product, quantity: product.quantity + 1 }
-            : product
-        )
-      );
-    } catch (err) {
-      console.error(err);
-    }
-  }, []);
+  const incrementQuantity = useCallback(
+    (id: string) => updateQuantity(id, "increaseQuantity"),
+    [updateQuantity]
+  );
 
-  const decrementQuantity = useCallback(async (id: string) => {
-    try {
-      const response = await fetch(`${orderURL}/${id}/decreaseQuantity`, {
-        method: "PUT",
-        body: JSON.stringify({ id }),
-        headers: {
-          "Content-Type": "application/json; charset=UTF-8",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to decrease quantity.");
-      }
-
-      setProducts((prevProducts) =>
-        prevProducts.map((product) =>
-          product.id === id && product.quantity > 1
-            ? { ...product, quantity: product.quantity - 1 }
-            : product
-        )
-      );
-    } catch (err) {
-      console.error(err);
-    }
-  }, []);
+  const decrementQuantity = useCallback(
+    (id: string) => updateQuantity(id, "decreaseQuantity"),
+    [updateQuantity]
+  );
 
   const deleteProduct = useCallback(async (id: string) => {
     try {
@@ -116,10 +115,16 @@ const OrderPage: React.FC = () => {
   );
 
   const handleFinishOrder = async () => {
-    const clearResponse = await fetch(`${orderURL}/all`, {
+    const clearOrder = await fetch(`${orderURL}/all`, {
       method: "DELETE",
     });
-    if (!clearResponse.ok) throw new Error();
+
+    const clearCart = await fetch(`${cartURL}/all`, {
+      method: "DELETE",
+    });
+
+    if (!clearOrder.ok || !clearCart.ok) throw new Error();
+
     setIsFinished(true);
   };
 

@@ -33,7 +33,7 @@ const Cart: React.FC<CartProps> = ({ addedToCart, showCart, handleClose }) => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const navigate = useNavigate();
 
-  const fetchCartProducts = useCallback(async () => {
+  const fetchCartProducts = async () => {
     try {
       const response = await fetch(cartURL);
 
@@ -45,7 +45,7 @@ const Cart: React.FC<CartProps> = ({ addedToCart, showCart, handleClose }) => {
     } catch {
       setErrorMessage("Could not get cart data.");
     }
-  }, []);
+  };
 
   useEffect(() => {
     fetchCartProducts();
@@ -107,17 +107,17 @@ const Cart: React.FC<CartProps> = ({ addedToCart, showCart, handleClose }) => {
 
   const handlePlaceOrder = async () => {
     try {
-      const clearResponse = await fetch(`${orderURL}/all`, {
+      const clearOrderResponse = await fetch(`${orderURL}/all`, {
         method: "DELETE",
       });
-      if (!clearResponse.ok) throw new Error();
+      if (!clearOrderResponse.ok) throw new Error();
 
-      const response = await fetch(orderURL, {
+      const updateOrderResponse = await fetch(orderURL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ items: cartProducts }),
       });
-      if (!response.ok) throw new Error();
+      if (!updateOrderResponse.ok) throw new Error();
 
       setErrorMessage("");
       navigate("/order");
