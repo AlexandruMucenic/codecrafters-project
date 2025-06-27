@@ -28,7 +28,7 @@ const Footer: React.FC = () => {
 
       {/* Copyright & Icons */}
       <div className="copyrightContainer">
-        <p>© 2023 Proudly created by Mius</p>
+        <p>© 2023 Proudly created by CodeCrafters</p>
         <div className="iconContainer">
           <button>
             <FacebookIcon />
